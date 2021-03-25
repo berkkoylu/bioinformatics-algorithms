@@ -29,7 +29,6 @@ public class Main {
 //        GGTGCACG
 //        GTTGGCCT
 
-
         int kMer = 10;
         int numberOfDNAStrings = 10;
 

@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class RandomizedMotifSearch {
@@ -28,6 +27,7 @@ public class RandomizedMotifSearch {
             }
 
             if(motifsScore(currMotifs) < motifsScore(bestMotifs)){
+
                 bestMotifs = deepCopyOfArrayList(currMotifs);
                 motifs = deepCopyOfArrayList(currMotifs);
 
@@ -111,7 +111,6 @@ public class RandomizedMotifSearch {
                 if(s.charAt(i) == 'A'){
                     A++;
                 }else if(s.charAt(i) == 'T'){
-
                     T++;
                 }else if(s.charAt(i) == 'G'){
                     G++;
@@ -148,6 +147,7 @@ public class RandomizedMotifSearch {
 
         for(int i=0; i<motifs.get(0).length(); i++){
             double total = motifs.size();
+
             double A = 1;
             double T = 1;
             double G = 1;
@@ -175,7 +175,7 @@ public class RandomizedMotifSearch {
 
         return profile;
 
-    }//end createProMatrix() method;
+    }
 
 
 
