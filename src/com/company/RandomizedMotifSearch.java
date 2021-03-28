@@ -95,16 +95,18 @@ public class RandomizedMotifSearch {
 
     }
 
-    private  int motifsScore(ArrayList<String> motifList) {
+    private double motifsScore(ArrayList<String> motifList) {
 
-        int score = 0;
+        double score = 0;
+
+        double A, T, G, C;
 
         for(int i=0; i<motifList.get(0).length(); i++){
 
-            int A = 0;
-            int T = 0;
-            int G = 0;
-            int C = 0;
+                A = 1;
+                T = 1;
+                G = 1;
+                C = 1;
 
             for (String s : motifList) {
 
@@ -119,7 +121,7 @@ public class RandomizedMotifSearch {
                 }
             }
 
-            int max = A;
+            double max = A;
             if( T > max) max = T;
             if( G > max) max = G;
             if( C > max) max = C;
@@ -145,13 +147,15 @@ public class RandomizedMotifSearch {
 
         double[][] profile = new double[4][motifs.get(0).length()];
 
+        double A, T, G, C;
+
         for(int i=0; i<motifs.get(0).length(); i++){
             double total = motifs.size();
 
-            double A = 1;
-            double T = 1;
-            double G = 1;
-            double C = 1;
+            A = 1;
+            T = 1;
+            G = 1;
+            C = 1;
 
             for (String motif : motifs) {
 
@@ -198,10 +202,11 @@ public class RandomizedMotifSearch {
 
         ArrayList<String> kMerMotifs = new ArrayList<>();
         int endingIndexOfString = DNAList.get(0).length() - kMer;
+        int random;
 
         for(int i = 0; i < tSequence; i++){
-            int rand = (int) (Math.random() * endingIndexOfString);
-            String motif = DNAList.get(i).substring(rand, rand + kMer);
+            random = (int) (Math.random() * (endingIndexOfString + 1 ));
+            String motif = DNAList.get(i).substring(random, random + kMer);
             kMerMotifs.add(motif);
         }
 
