@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 	// write your code here
 
-        Scanner readIn = new Scanner(new File("/Users/berkkoylu/Desktop/bioinformatics-algorithms/deneme.txt"));
+        Scanner readIn = new Scanner(new File("randomgenerateddna.txt"));
 
 //        int kMer = readIn.nextInt();
 //        int numberOfDNAStrings = readIn.nextInt();
@@ -42,12 +42,19 @@ public class Main {
 
         }
 
-        RandomizedMotifSearch randomizedMotifSearch =  new RandomizedMotifSearch();
-
-        ArrayList<String> bestMotifs =  randomizedMotifSearch.randomizedMotifSearch( DNAList,  kMer, numberOfDNAStrings);
-        randomizedMotifSearch.printArrayList(bestMotifs);
-
-
+		
+//		  RandomizedMotifSearch randomizedMotifSearch = new RandomizedMotifSearch();
+//		  
+//		  ArrayList<String> bestMotifs = randomizedMotifSearch.randomizedMotifSearch(
+//		  DNAList, kMer, numberOfDNAStrings);
+//		  randomizedMotifSearch.printArrayList(bestMotifs); String test =
+//		  randomizedMotifSearch.findConsensusString(bestMotifs, kMer,
+//		  numberOfDNAStrings); System.out.println();
+//		  System.out.print("consensus string = " + test);
+		 
+        GibbsSampler gibbsSampler = new GibbsSampler();
+        ArrayList<String> bestMotifs = gibbsSampler.gibbsSampler(DNAList, kMer, numberOfDNAStrings, 50000);
+        gibbsSampler.printArrayList(bestMotifs);
 
     }
 }
