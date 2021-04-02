@@ -86,25 +86,23 @@ public class GibbsSampler {
 	 private double[][] profileMatrix(List<String> motifs, int kMer, int tSequence, String removedString){
 		 double[][] profile = new double[4][kMer];
 		 double totalString = motifs.size();
+		 int numberOfString = motifs.size();
 		 for (int i = 0; i < kMer; i++) {
 			double A = 0;
 			double T = 0;
 			double G = 0;
 			double C = 0;
 			
-			for(String motif : motifs) {
-				if(motif.charAt(i) == 'a') {
-					A++;
-				}
-				else if(motif.charAt(i) == 't') {
-					T++;
-				}
-				else if(motif.charAt(i) == 'g') {
-					G++;
-				}
-				else if(motif.charAt(i) == 'c') {
-					C++;
-				}
+			for (int j = 0 ; j < numberOfString ; j++) {
+				 if(motifs.get(j).charAt(i) == 'a') {
+					 A++;
+				 }else if(motifs.get(j).charAt(i) == 't') {
+					 T++;
+				 }else if(motifs.get(j).charAt(i) == 'g') {
+					 G++;
+				 }else if(motifs.get(j).charAt(i) == 'c') {
+					 C++;
+				 }
 			}
 			
 			profile[0][i] = A / totalString;
