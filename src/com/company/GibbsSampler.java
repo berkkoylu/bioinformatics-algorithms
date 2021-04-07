@@ -93,7 +93,7 @@ public class GibbsSampler {
 			double G = 0;
 			double C = 0;
 			
-			for (int j = 0 ; j < numberOfString ; j++) {
+			for(int j = 0 ; j < numberOfString ; j++) {
 				 if(motifs.get(j).charAt(i) == 'a') {
 					 A++;
 				 }else if(motifs.get(j).charAt(i) == 't') {

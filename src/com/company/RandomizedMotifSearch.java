@@ -6,61 +6,53 @@ import java.util.List;
 public class RandomizedMotifSearch {
 
 
-    public ArrayList<String> randomizedMotifSearch(ArrayList<String> DNAList, int kMer, int tSequence){
+    public ArrayList<String> randomizedMotifSearch(ArrayList<String> DNAList, int kMer, int numberOfSequence){
 
-        ArrayList<String> motifs = randomSelectKMerMotifs(DNAList, kMer, tSequence);
+        ArrayList<String> motifs = randomSelectKMerMotifs(DNAList, kMer, numberOfSequence);
         ArrayList<String> bestMotifs = deepCopyOfArrayList(motifs);
-        boolean run = true;
 
-        while(run){
+        while(true){
 
-            double[][] profileMatrix = createProMatrix( motifs );
+            double[][] profileMatrix = createProfileMatrix( motifs );
 
-            ArrayList<String> currMotifs = new ArrayList<>();
+            ArrayList<String> currentMotifs = new ArrayList<>();
 
-            for(int j=0; j<tSequence; j++){
+            for(int j=0; j < numberOfSequence; j++){
 
-                String motif_j = profileMostProbable(profileMatrix, DNAList.get(j), kMer);
-
-                currMotifs.add(motif_j);
+                String motif = profileMatrixHighScoreMotif(profileMatrix, DNAList.get(j), kMer);
+                currentMotifs.add(motif);
 
             }
 
-            if(motifsScore(currMotifs) < motifsScore(bestMotifs)){
-
-                bestMotifs = deepCopyOfArrayList(currMotifs);
-                motifs = deepCopyOfArrayList(currMotifs);
-
+            if(score(currentMotifs) < score(bestMotifs)){
+                bestMotifs = deepCopyOfArrayList(currentMotifs);
+                motifs = deepCopyOfArrayList(currentMotifs);
             } else {
-
-                run = false;
-
+                break;
             }
 
         }
-
 
         return bestMotifs;
     }
 
 
-    private String profileMostProbable(double[][] profileMatrix,	String sequence, int k_mer) {
+    private String profileMatrixHighScoreMotif(double[][] profileMatrix, String sequence, int kMer) {
 
-        String Kmer = sequence.substring(0, k_mer);
-        double score = profileScore(Kmer, profileMatrix);
+        String Kmer = sequence.substring(0, kMer);
+        double score = profileMotifScore(Kmer, profileMatrix);
 
-        int Len = sequence.length();
-        int lastStartPoint = Len - k_mer + 1;
+        int lastStartPoint = sequence.length() - kMer + 1;
 
-        for(int i=1; i<lastStartPoint; i++){
+        for(int i=1; i < lastStartPoint; i++){
 
-            String currSeq = sequence.substring(i, i+k_mer);
+            String currentSequence = sequence.substring(i, i+kMer);
 
-            double currPro = profileScore(currSeq, profileMatrix);
-            if(currPro > score){
+            double currentProfileScore = profileMotifScore(currentSequence, profileMatrix);
+            if(currentProfileScore > score){
 
-                Kmer = currSeq;
-                score = currPro;
+                Kmer = currentSequence;
+                score = currentProfileScore;
             }
         }
         return Kmer;
@@ -68,26 +60,25 @@ public class RandomizedMotifSearch {
     }
 
 
-    private  double profileScore(String seq, double[][] profileMatrix) {
+    private  double profileMotifScore(String sequence, double[][] profileMatrix) {
 
         double score = 1;
-        int Len = seq.length();
 
-        for(int i=0; i<Len; i++){
+        for(int i=0; i<sequence.length(); i++){
 
-            double currPro = 0;
+            double currentProfileScore = 0;
 
-            if(seq.charAt(i) == 'A'){
-                currPro = profileMatrix[0][i];
-            }else if(seq.charAt(i) == 'T'){
-                currPro = profileMatrix[1][i];
-            }else if(seq.charAt(i) == 'G'){
-                currPro = profileMatrix[2][i];
-            }else if(seq.charAt(i) == 'C'){
-                currPro = profileMatrix[3][i];
+            if(sequence.charAt(i) == 'A'){
+                currentProfileScore = profileMatrix[0][i];
+            }else if(sequence.charAt(i) == 'T'){
+                currentProfileScore = profileMatrix[1][i];
+            }else if(sequence.charAt(i) == 'G'){
+                currentProfileScore = profileMatrix[2][i];
+            }else if(sequence.charAt(i) == 'C'){
+                currentProfileScore = profileMatrix[3][i];
             }
 
-            score = score * currPro;
+            score = score * currentProfileScore;
 
         }
 
@@ -95,7 +86,7 @@ public class RandomizedMotifSearch {
 
     }
 
-    private double motifsScore(ArrayList<String> motifList) {
+    public double score(ArrayList<String> motifList) {
 
         double score = 0;
 
@@ -103,10 +94,10 @@ public class RandomizedMotifSearch {
 
         for(int i=0; i<motifList.get(0).length(); i++){
 
-                A = 1;
-                T = 1;
-                G = 1;
-                C = 1;
+                A = 0;
+                T = 0;
+                G = 0;
+                C = 0;
 
             for (String s : motifList) {
 
@@ -143,14 +134,15 @@ public class RandomizedMotifSearch {
 
     }
 
-    private  double[][] createProMatrix(ArrayList<String> motifs) {
+    private  double[][] createProfileMatrix(ArrayList<String> motifs) {
 
-        double[][] profile = new double[4][motifs.get(0).length()];
+        double[][] profileMatrix = new double[4][motifs.get(0).length()];
 
         double A, T, G, C;
 
-        for(int i=0; i<motifs.get(0).length(); i++){
-            double total = motifs.size();
+
+        for(int i=0; i < motifs.get(0).length(); i++){
+            double totalSize = motifs.size();
 
             A = 1;
             T = 1;
@@ -170,15 +162,13 @@ public class RandomizedMotifSearch {
                 }
             }
 
-            profile[0][i] = A/total;
-            profile[1][i] = T/total;
-            profile[2][i] = G/total;
-            profile[3][i] = C/total;
+            profileMatrix[0][i] = A/totalSize;
+            profileMatrix[1][i] = T/totalSize;
+            profileMatrix[2][i] = G/totalSize;
+            profileMatrix[3][i] = C/totalSize;
 
         }
-
-        return profile;
-
+        return profileMatrix;
     }
 
 
@@ -197,19 +187,17 @@ public class RandomizedMotifSearch {
 
 
 
-
-    private ArrayList<String> randomSelectKMerMotifs(List<String> DNAList, int kMer, int tSequence) {
+    private ArrayList<String> randomSelectKMerMotifs(List<String> DNAList, int kMer, int numberOfSequence) {
 
         ArrayList<String> kMerMotifs = new ArrayList<>();
         int endingIndexOfString = DNAList.get(0).length() - kMer;
-        int random;
+        int randomNumber;
 
-        for(int i = 0; i < tSequence; i++){
-            random = (int) (Math.random() * (endingIndexOfString + 1 ));
-            String motif = DNAList.get(i).substring(random, random + kMer);
+        for(int i = 0; i < numberOfSequence; i++){
+            randomNumber = (int) (Math.random() * (endingIndexOfString + 1 ));
+            String motif = DNAList.get(i).substring(randomNumber, randomNumber + kMer);
             kMerMotifs.add(motif);
         }
-
         return kMerMotifs;
 
     }
