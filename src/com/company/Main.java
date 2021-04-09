@@ -27,7 +27,7 @@ public class Main {
 //        GGTGCACG
 //        GTTGGCCT
 
-        int kMer = 9;
+        int kMer = 11;
         int numberOfDNAStrings = 10;
 
         ArrayList<String> DNAList = new ArrayList<String>();
@@ -45,16 +45,13 @@ public class Main {
         for (int i = 0; i < 3500 ; i++) {
          bestMotifs = randomizedMotifSearch.randomizedMotifSearch(DNAList, kMer, numberOfDNAStrings);
          consensusMap.put(bestMotifs, randomizedMotifSearch.score(bestMotifs));
-
         }
 
         Map<List<String>, Double> consensusMapTemp = sortByValue(consensusMap);
         System.out.println(consensusMapTemp);
 
-//        randomizedMotifSearch.printArrayList(bestMotifs);
-//        System.out.println(randomizedMotifSearch.score(bestMotifs));
-
-
+       randomizedMotifSearch.printArrayList(bestMotifs);
+//     System.out.println(randomizedMotifSearch.score(bestMotifs));
 
 
 //        GibbsSampler gibbsSampler = new GibbsSampler();
