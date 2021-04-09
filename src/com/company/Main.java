@@ -42,21 +42,25 @@ public class Main {
         Map<List<String>, Double> consensusMap = new HashMap<>();
         ArrayList<String> bestMotifs = null;
 
-        for (int i = 0; i < 3500 ; i++) {
-         bestMotifs = randomizedMotifSearch.randomizedMotifSearch(DNAList, kMer, numberOfDNAStrings);
-         consensusMap.put(bestMotifs, randomizedMotifSearch.score(bestMotifs));
-        }
+//        for (int i = 0; i < 3500 ; i++) {
+//         bestMotifs = randomizedMotifSearch.randomizedMotifSearch(DNAList, kMer, numberOfDNAStrings);
+//         consensusMap.put(bestMotifs, randomizedMotifSearch.score(bestMotifs));
+//        }
 
+        //Map<List<String>, Double> consensusMapTemp = sortByValue(consensusMap);
+        //System.out.println(consensusMapTemp);
+
+       //randomizedMotifSearch.printArrayList(bestMotifs);
+//     System.out.println(randomizedMotifSearch.score(bestMotifs));
+        GibbsSampler gibbsSampler = new GibbsSampler();
+        for (int i = 0; i < 3500 ; i++) {
+        	ArrayList<String> bestMotifsGibbs = gibbsSampler.gibbsSampler(DNAList, kMer, numberOfDNAStrings, 5000);
+        	consensusMap.put(bestMotifsGibbs, (double) gibbsSampler.motifScore(bestMotifsGibbs));
+        }
         Map<List<String>, Double> consensusMapTemp = sortByValue(consensusMap);
         System.out.println(consensusMapTemp);
-
-       randomizedMotifSearch.printArrayList(bestMotifs);
-//     System.out.println(randomizedMotifSearch.score(bestMotifs));
-
-
-//        GibbsSampler gibbsSampler = new GibbsSampler();
-//        ArrayList<String> bestMotifsGibbs = gibbsSampler.gibbsSampler(DNAList, kMer, numberOfDNAStrings, 500);
-//        gibbsSampler.printArrayList(bestMotifsGibbs);
+        
+        //gibbsSampler.printArrayList(bestMotifsGibbs);
 
     }
 

@@ -24,8 +24,10 @@ public class GibbsSampler {
 		 ArrayList<String> bestMotifs = deepCopyOfArrayList(motifs);
 		 double[][] profile = new double[4][kMer];
 		 Random rand = new Random();
-		 printArrayList(motifs);
-		 System.out.println("----------------------");
+		 double score = motifScore(motifs);
+		 int countOfUnchangedIterations = 0;
+		 //printArrayList(motifs);
+		 //System.out.println("----------------------");
 		 for (int j = 0; j < N; j++) {
 			 int randNumber = rand.nextInt(tSequence);
 			 String removedString = motifs.get(randNumber);
@@ -46,13 +48,23 @@ public class GibbsSampler {
 			 //System.out.println("----------------");
 			 if(motifScore(motifs) < motifScore(bestMotifs)) {
 				 bestMotifs = deepCopyOfArrayList(motifs);
+				 //countOfUnchangedIterations++;
+				 //System.out.println(countOfUnchangedIterations);
+			 }else {
+				 countOfUnchangedIterations++;
 			 }
+			 if(countOfUnchangedIterations == 50) {
+				 //System.out.println("test" + j);
+				 //System.out.println("test" + motifScore(bestMotifs));
+				 break;
+			 }
+			 
 			 
 		}
 		 return bestMotifs;
 	 }
 	 
-	 private int motifScore(List<String> motifs) {
+	 public int motifScore(List<String> motifs) {
 		 int score = 0;
 		 int numberOfString = motifs.size();
 		 int lenOfString = motifs.get(0).length();
@@ -65,13 +77,13 @@ public class GibbsSampler {
 			 int C = 0;
 			 
 			 for(int j = 0 ; j < numberOfString ; j++) {
-				 if(motifs.get(j).charAt(i) == 'a') {
+				 if(motifs.get(j).charAt(i) == 'A') {
 					 A++;
-				 }else if(motifs.get(j).charAt(i) == 't') {
+				 }else if(motifs.get(j).charAt(i) == 'T') {
 					 T++;
-				 }else if(motifs.get(j).charAt(i) == 'g') {
+				 }else if(motifs.get(j).charAt(i) == 'G') {
 					 G++;
-				 }else if(motifs.get(j).charAt(i) == 'c') {
+				 }else if(motifs.get(j).charAt(i) == 'C') {
 					 C++;
 				 }
 			 }
@@ -94,13 +106,13 @@ public class GibbsSampler {
 			double C = 0;
 			
 			for(int j = 0 ; j < numberOfString ; j++) {
-				 if(motifs.get(j).charAt(i) == 'a') {
+				 if(motifs.get(j).charAt(i) == 'A') {
 					 A++;
-				 }else if(motifs.get(j).charAt(i) == 't') {
+				 }else if(motifs.get(j).charAt(i) == 'T') {
 					 T++;
-				 }else if(motifs.get(j).charAt(i) == 'g') {
+				 }else if(motifs.get(j).charAt(i) == 'G') {
 					 G++;
-				 }else if(motifs.get(j).charAt(i) == 'c') {
+				 }else if(motifs.get(j).charAt(i) == 'C') {
 					 C++;
 				 }
 			}
@@ -136,16 +148,16 @@ public class GibbsSampler {
 		 double score = 1;
 		 int len = sequence.length();
 		 for(int i = 0 ; i < len ; i++) {
-			 if(sequence.charAt(i) == 'a') {
+			 if(sequence.charAt(i) == 'A') {
 				 score = score * profile[0][i];
 			 }
-			 else if(sequence.charAt(i) == 't') {
+			 else if(sequence.charAt(i) == 'T') {
 				 score = score * profile[1][i];
 			 }
-			 else if(sequence.charAt(i) == 'g') {
+			 else if(sequence.charAt(i) == 'G') {
 				 score = score * profile[2][i];
 			 }
-			 else if(sequence.charAt(i) == 'c') {
+			 else if(sequence.charAt(i) == 'C') {
 				 score = score * profile[3][i];
 			 }
 		 }
