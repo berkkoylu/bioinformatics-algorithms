@@ -27,7 +27,7 @@ public class Main {
 //        GGTGCACG
 //        GTTGGCCT
 
-        int kMer = 11;
+        int kMer = 9;
         int numberOfDNAStrings = 10;
 
         ArrayList<String> DNAList = new ArrayList<String>();

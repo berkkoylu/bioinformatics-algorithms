@@ -26,40 +26,21 @@ public class GibbsSampler {
 		 Random rand = new Random();
 		 double score = motifScore(motifs);
 		 int countOfUnchangedIterations = 0;
-		 //printArrayList(motifs);
-		 //System.out.println("----------------------");
 		 for (int j = 0; j < N; j++) {
 			 int randNumber = rand.nextInt(tSequence);
 			 String removedString = motifs.get(randNumber);
-			 //System.out.println("removed = " + removedString);
 			 motifs.remove(randNumber);
 			 profile = profileMatrix(motifs, kMer, tSequence, removedString);
-			 //printProfile(profile);
-			 //System.out.println("----------------------");
 			 String replacedString = probOfRemovedString(profile, randNumber, kMer, DNAList, removedString);
-			 //System.out.println("replaced = " + replacedString);
 			 motifs.add(randNumber, replacedString);
-			 //printArrayList(motifs);
-			 
-			 //int oldScore = motifScore(motifs);
-			 //int newScore = motifScore(bestMotifs);
-			 //System.out.println(oldScore);
-			 //System.out.println(newScore);
-			 //System.out.println("----------------");
 			 if(motifScore(motifs) < motifScore(bestMotifs)) {
 				 bestMotifs = deepCopyOfArrayList(motifs);
-				 //countOfUnchangedIterations++;
-				 //System.out.println(countOfUnchangedIterations);
 			 }else {
 				 countOfUnchangedIterations++;
 			 }
 			 if(countOfUnchangedIterations == 50) {
-				 //System.out.println("test" + j);
-				 //System.out.println("test" + motifScore(bestMotifs));
 				 break;
 			 }
-			 
-			 
 		}
 		 return bestMotifs;
 	 }
