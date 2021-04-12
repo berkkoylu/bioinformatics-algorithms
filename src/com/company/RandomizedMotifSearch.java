@@ -137,17 +137,15 @@ public class RandomizedMotifSearch {
     private  double[][] createProfileMatrix(ArrayList<String> motifs) {
 
         double[][] profileMatrix = new double[4][motifs.get(0).length()];
-
+        double totalSize = motifs.size();
         double A, T, G, C;
 
-
         for(int i=0; i < motifs.get(0).length(); i++){
-            double totalSize = motifs.size();
 
-            A = 1;
-            T = 1;
-            G = 1;
-            C = 1;
+            A = 0;
+            T = 0;
+            G = 0;
+            C = 0;
 
             for (String motif : motifs) {
 

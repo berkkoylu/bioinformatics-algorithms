@@ -8,11 +8,7 @@ public class Main {
 
     // Implemented k-mer will be AAAAAAAAAA with 4 mutations in each line AAATAACGCA
     //
-    //
-    //
     // Added after inside txt file in each line
-
-
     public static void main(String[] args) throws FileNotFoundException {
 	// write your code here
 
@@ -27,7 +23,7 @@ public class Main {
 //        GGTGCACG
 //        GTTGGCCT
 
-        int kMer = 9;
+        int kMer = 11;
         int numberOfDNAStrings = 10;
 
         ArrayList<String> DNAList = new ArrayList<String>();
@@ -38,20 +34,25 @@ public class Main {
         }
 
 
-        RandomizedMotifSearch randomizedMotifSearch = new RandomizedMotifSearch();
+//        RandomizedMotifSearch randomizedMotifSearch = new RandomizedMotifSearch();
         Map<List<String>, Double> consensusMap = new HashMap<>();
-        ArrayList<String> bestMotifs = null;
-
+//        ArrayList<String> bestMotifs = null;
+//
 //        for (int i = 0; i < 3500 ; i++) {
 //         bestMotifs = randomizedMotifSearch.randomizedMotifSearch(DNAList, kMer, numberOfDNAStrings);
 //         consensusMap.put(bestMotifs, randomizedMotifSearch.score(bestMotifs));
 //        }
+//
+//        Map<List<String>, Double> consensusMapTemp = sortByValue(consensusMap);
+//        System.out.println(consensusMapTemp);
+//
 
-        //Map<List<String>, Double> consensusMapTemp = sortByValue(consensusMap);
-        //System.out.println(consensusMapTemp);
+
+
 
        //randomizedMotifSearch.printArrayList(bestMotifs);
 //     System.out.println(randomizedMotifSearch.score(bestMotifs));
+
         GibbsSampler gibbsSampler = new GibbsSampler();
         for (int i = 0; i < 3500 ; i++) {
         	ArrayList<String> bestMotifsGibbs = gibbsSampler.gibbsSampler(DNAList, kMer, numberOfDNAStrings, 5000);
@@ -59,8 +60,8 @@ public class Main {
         }
         Map<List<String>, Double> consensusMapTemp = sortByValue(consensusMap);
         System.out.println(consensusMapTemp);
-        
-        //gibbsSampler.printArrayList(bestMotifsGibbs);
+
+//        gibbsSampler.printArrayList(bestMotifsGibbs);
 
     }
 
